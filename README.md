@@ -1,7 +1,3 @@
-# FindCalm Prototype
+# FindCalm — Listener Dashboard (Dark Mode)
 
-Run with:
-```
-npm install
-npm start
-```
+This is a placeholder version of the project files for upload to GitHub and deployment on Vercel.
