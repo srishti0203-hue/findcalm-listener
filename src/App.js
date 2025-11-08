@@ -1,2 +1,0 @@
-// Simplified main component placeholder
-export default function App(){return (<div style={{fontFamily:'Poppins, sans-serif',padding:20}}><h1>FindCalm — Listener Prototype</h1><p>This is the demo placeholder. The full logic will be integrated in deployment.</p></div>)}
