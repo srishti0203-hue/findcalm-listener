@@ -15,7 +15,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .header h2 {
@@ -23,17 +22,17 @@ body {
   font-weight: 600;
 }
 
-.profile-pic img {
+.profile img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
 
 .status-card {
-  background-color: #181c20;
+  background: #181c20;
   border-radius: 12px;
   padding: 15px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .status-header {
@@ -43,8 +42,8 @@ body {
 }
 
 .edit-btn {
-  background: none;
   border: none;
+  background: none;
   color: #6ee7b7;
   font-weight: 500;
   cursor: pointer;
@@ -58,90 +57,93 @@ body {
 
 .status-input {
   width: 100%;
-  background-color: #101317;
-  color: #fff;
+  background: #101317;
   border: 1px solid #2e353c;
   border-radius: 8px;
+  color: #fff;
   padding: 8px;
   font-size: 0.9rem;
 }
 
-.earnings-section {
+.earnings {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .card {
-  background-color: #181c20;
+  flex: 1;
+  background: #181c20;
   border-radius: 12px;
   padding: 15px;
-  flex: 1;
   text-align: center;
 }
 
 .card h4 {
-  font-weight: 500;
-  font-size: 0.9rem;
   color: #9ca3af;
+  font-weight: 500;
 }
 
 .value {
   font-size: 1.6rem;
   font-weight: 600;
+  margin-top: 5px;
   color: #fff;
-  margin-top: 6px;
 }
 
-.time-section {
+.hours-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #181c20;
+  background: #181c20;
   border-radius: 16px;
-  padding: 15px;
-  margin-bottom: 25px;
+  padding: 20px;
+  margin-top: 20px;
 }
 
-.circular {
+.circle {
+  width: 100px;
+  height: 100px;
+  border: 6px solid #1f2b2d;
+  border-top-color: #4dd6a1;
+  border-radius: 50%;
   position: relative;
-  width: 120px;
-  height: 120px;
 }
 
-.circle-text {
+.circle-inner {
   position: absolute;
-  top: 35px;
-  left: 40px;
+  top: 25%;
+  left: 27%;
   text-align: center;
 }
 
 .minutes {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0;
 }
 
-.hours-card {
-  text-align: left;
-  max-width: 180px;
+.label {
+  font-size: 0.9rem;
+}
+
+.details h4 {
+  margin-bottom: 5px;
+  color: #d1d5db;
 }
 
 .penalty {
   color: #ef4444;
   font-size: 0.85rem;
-  margin-top: 4px;
 }
 
-.next-payout {
+.next {
   color: #9ca3af;
   font-size: 0.8rem;
-  margin: 6px 0;
+  margin: 5px 0;
 }
 
 .leave-btn {
-  background-color: #2b3a2f;
+  background: #2b3a2f;
   color: #a3e635;
   border: none;
   padding: 8px 14px;
@@ -154,7 +156,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
+  margin-top: 25px;
   font-size: 0.9rem;
   color: #9ca3af;
 }
@@ -162,14 +164,14 @@ body {
 .dot {
   height: 10px;
   width: 10px;
-  background-color: #4ade80;
+  background: #4ade80;
   border-radius: 50%;
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 5px;
 }
 
 .badge {
-  background-color: #ef4444;
+  background: #ef4444;
   color: white;
   font-size: 0.7rem;
   padding: 2px 6px;
