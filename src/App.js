@@ -3,29 +3,20 @@ import "./index.css";
 
 function App() {
   const [status, setStatus] = useState("🌼 Feeling calm and open for reflective conversations tonight.");
-  const [editing, setEditing] = useState(false);
-  const [newStatus, setNewStatus] = useState(status);
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempStatus, setTempStatus] = useState(status);
 
-  const handleEdit = () => setEditing(!editing);
-  const handleSave = () => {
-    setStatus(newStatus);
-    setEditing(false);
+  const handleStatusEdit = () => {
+    if (isEditing) setStatus(tempStatus);
+    setIsEditing(!isEditing);
   };
-
-  const todayEarnings = 870;
-  const monthEarnings = 4620;
-  const totalHours = 3;
-  const minutes = 60;
-  const penalty = 100;
-  const nextPayout = "1st Dec";
 
   return (
     <div className="dashboard">
+      {/* Header */}
       <header className="header">
-        <div>
-          <h2>Listener Dashboard</h2>
-        </div>
-        <div className="profile-pic">
+        <h2>Listener Dashboard</h2>
+        <div className="profile">
           <img
             src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
             alt="Profile"
@@ -33,78 +24,62 @@ function App() {
         </div>
       </header>
 
-      <section className="status-card">
+      {/* Status Card */}
+      <div className="status-card">
         <div className="status-header">
           <h3>Today’s Status</h3>
-          <button onClick={handleEdit} className="edit-btn">
-            {editing ? "Save" : "Edit Status"}
+          <button className="edit-btn" onClick={handleStatusEdit}>
+            {isEditing ? "Save" : "Edit Status"}
           </button>
         </div>
-        {editing ? (
+
+        {isEditing ? (
           <textarea
-            value={newStatus}
-            onChange={(e) => setNewStatus(e.target.value)}
             className="status-input"
+            value={tempStatus}
+            onChange={(e) => setTempStatus(e.target.value)}
           />
         ) : (
           <p className="status-text">{status}</p>
         )}
-      </section>
+      </div>
 
-      <section className="earnings-section">
-        <div className="card small-card">
+      {/* Earnings */}
+      <div className="earnings">
+        <div className="card">
           <h4>Today’s Earnings</h4>
-          <p className="value">₹{todayEarnings}</p>
+          <p className="value">₹870</p>
         </div>
-        <div className="card small-card">
+        <div className="card">
           <h4>This Month</h4>
-          <p className="value">₹{monthEarnings}</p>
+          <p className="value">₹4,620</p>
         </div>
-      </section>
+      </div>
 
-      <section className="time-section">
-        <div className="circular">
-          <svg width="120" height="120">
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              stroke="#1f2b2d"
-              strokeWidth="10"
-              fill="none"
-            />
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              stroke="#4dd6a1"
-              strokeWidth="10"
-              fill="none"
-              strokeDasharray="314"
-              strokeDashoffset="120"
-              strokeLinecap="round"
-            />
-          </svg>
-          <div className="circle-text">
-            <p className="minutes">{minutes}</p>
-            <p>min</p>
+      {/* Hours + Penalty */}
+      <div className="hours-section">
+        <div className="circle">
+          <div className="circle-inner">
+            <p className="minutes">60</p>
+            <p className="label">min</p>
           </div>
         </div>
 
-        <div className="hours-card">
+        <div className="details">
           <h4>Total Hours Today</h4>
-          <p className="value">{totalHours}h</p>
-          <p className="penalty">⚠️ Penalty applied – ₹{penalty} deducted</p>
-          <p className="next-payout">Next Payout: {nextPayout}</p>
+          <p className="value">3h</p>
+          <p className="penalty">⚠️ Penalty applied – ₹100 deducted</p>
+          <p className="next">Next Payout: 1st Dec</p>
           <button className="leave-btn">🍃 Apply for Leave</button>
         </div>
-      </section>
+      </div>
 
+      {/* Footer */}
       <footer className="footer">
-        <div className="online-status">
+        <div className="online">
           <span className="dot"></span> Online
         </div>
-        <div className="notifications">
+        <div className="notif">
           🔔 <span className="badge">1</span>
         </div>
       </footer>
@@ -113,5 +88,3 @@ function App() {
 }
 
 export default App;
-
-  
