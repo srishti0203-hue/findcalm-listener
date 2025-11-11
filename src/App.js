@@ -3,27 +3,37 @@ import "./index.css";
 
 function App() {
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>🌿 FindCalm Listener Dashboard</h1>
-        <p>Welcome! Your React app is live and running perfectly.</p>
+    <div className="main-wrapper">
+      <header className="header">
+        <h1>FindCalm Listener</h1>
+        <p className="subtitle">A gentle space to listen, support, and grow 🌿</p>
       </header>
 
-      <main>
-        <div className="status-card">
-          <p>Status: <strong>Online</strong></p>
+      <section className="listener-panel">
+        <div className="status-box">
+          <h3>Current Status</h3>
+          <p className="online">🟢 Online & Available</p>
         </div>
-        <div className="earnings">
-          <div className="card">
-            <h3>Today's Earnings</h3>
-            <p>₹500</p>
-          </div>
-          <div className="stats">
-            <h3>Total Calls</h3>
-            <p>8</p>
-          </div>
+
+        <div className="session-box">
+          <h3>Today’s Reflection</h3>
+          <p>“I am here to listen, not to judge.”</p>
         </div>
-      </main>
+
+        <div className="earnings-box">
+          <h3>Today’s Earnings</h3>
+          <p>₹500</p>
+        </div>
+
+        <div className="call-stats">
+          <h3>Calls Completed</h3>
+          <p>8</p>
+        </div>
+      </section>
+
+      <footer className="footer">
+        <p>FindCalm © 2025 | Designed for emotional support listeners 💬</p>
+      </footer>
     </div>
   );
 }
