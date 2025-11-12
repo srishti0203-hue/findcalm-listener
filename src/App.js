@@ -324,13 +324,23 @@ const dashOffset = circumference - progressCycle * circumference;
 
           <div className="actions-row">
             <button className="btn leave-btn" onClick={openLeaveModal}>🍃 Apply for Leave</button>
-            <button
-              className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
-              onClick={handleToggleOnline}
-              disabled={blockedUntil && Date.now() < blockedUntil}
-            >
-              {isOnline ? "Go Offline" : "Go Online"}
-            </button>
+           className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
+  onClick={() => {
+    if (blockedUntil && Date.now() < blockedUntil) return;
+    setIsOnline((prev) => {
+      const newStatus = !prev;
+      if (newStatus) {
+        setNotifications((n) => ["You are now Online", ...n]);
+      } else {
+        setNotifications((n) => ["You went Offline", ...n]);
+      }
+      return newStatus;
+    });
+  }}
+>
+  {isOnline ? "Go Offline" : "Go Online"}
+</button>
+
           </div>
 
           <div className="tiny-actions">
