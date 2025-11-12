@@ -376,7 +376,6 @@ const dashOffset = circumference - progressCycle * circumference;
     {isOnline ? "Go Offline" : "Go Online"}
   </button>
 </div>
-
 </div>
 
 
