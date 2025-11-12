@@ -77,10 +77,11 @@ export default function App() {
 
   // circle progress (minutes/60)
  // circle progress (looping every 60 minutes, continues counting in backend)
+// Circle progress (loops every 60 minutes)
 const circleRadius = 50;
 const circumference = 2 * Math.PI * circleRadius;
 
-// Make the progress bar reset every 60 mins visually (1 cycle = 60 min)
+// progressCycle keeps looping every 60 minutes (so 61, 62 mins still animate)
 const progressCycle = (minutes % 60) / 60;
 const dashOffset = circumference - progressCycle * circumference;
 
