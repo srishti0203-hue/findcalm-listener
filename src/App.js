@@ -270,32 +270,32 @@ const dashOffset = circumference - progressCycle * circumference;
 
       <section className="hours-section">
         <div className="circle-wrapper">
-          <svg width="140" height="140" viewBox="0 0 140 140">
-            <g transform="translate(20,20)">
-              <circle
-                cx="50"
-                cy="50"
-                r={circleRadius}
-                stroke="#111519"
-                strokeWidth="10"
-                fill="none"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r={circleRadius}
-                stroke="#4dd6a1"
-                strokeWidth="10"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={dashOffset}
-                style={{ transition: "stroke-dashoffset 700ms ease" }}
-              />
-            </g>
-          </svg>
+         <svg width="140" height="140" viewBox="0 0 140 140">
+  <g transform="translate(20,20)">
+    <circle
+      cx="50"
+      cy="50"
+      r={circleRadius}
+      stroke="#111519"
+      strokeWidth="10"
+      fill="none"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r={circleRadius}
+      stroke="#4dd6a1"
+      strokeWidth="10"
+      strokeLinecap="round"
+      fill="none"
+      strokeDasharray={circumference}
+      strokeDashoffset={dashOffset}
+      style={{ transition: "stroke-dashoffset 1s linear" }}
+    />
+  </g>
+</svg>
 
-         <div className="circle-center">
+<div className="circle-center">
   <div className="center-minutes">
     {minutes} <span className="min-label">min</span>
   </div>
