@@ -76,10 +76,13 @@ export default function App() {
   const attendanceStatus = isAvailable ? "Present" : "On Leave";
 
   // circle progress (minutes/60)
-  const circleRadius = 50;
-  const circumference = 2 * Math.PI * circleRadius;
-  const progress = Math.min((minutes / 60) * 100, 100);
-  const dashOffset = circumference - (progress / 100) * circumference;
+ // circle progress (looping every 60 minutes, continues counting in backend)
+const circleRadius = 50;
+const circumference = 2 * Math.PI * circleRadius;
+
+// Make the progress bar reset every 60 mins visually (1 cycle = 60 min)
+const progressCycle = (minutes % 60) / 60;
+const dashOffset = circumference - progressCycle * circumference;
 
   // blocked check (in case blockedUntil persisted)
   useEffect(() => {
