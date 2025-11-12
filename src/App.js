@@ -323,26 +323,43 @@ const dashOffset = circumference - progressCycle * circumference;
             </div>
           )}
 
-          <div className="actions-row">
-            <button className="btn leave-btn" onClick={openLeaveModal}>🍃 Apply for Leave</button>
-           className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
-  onClick={() => {
-    if (blockedUntil && Date.now() < blockedUntil) return;
-    setIsOnline((prev) => {
-      const newStatus = !prev;
+        <div className="actions-row">
+  <button className="btn leave-btn" onClick={openLeaveModal}>
+    🍃 Apply for Leave
+  </button>
+
+  <button
+    className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
+    onClick={() => {
+      // Prevent going online if blocked
+      if (blockedUntil && Date.now() < blockedUntil) return;
+
+      // Toggle online/offline
+      const newStatus = !isOnline;
+      setIsOnline(newStatus);
+
       if (newStatus) {
+        // Going ONLINE
         setNotifications((n) => ["You are now Online", ...n]);
       } else {
+        // Going OFFLINE
         setNotifications((n) => ["You went Offline", ...n]);
-      }
-      return newStatus;
-    });
-  }}
->
-  {isOnline ? "Go Offline" : "Go Online"}
-</button>
 
-          </div>
+        // Auto-mark leave if underworked
+        if (!(minutes >= 60 || onlineMinutes >= 180)) {
+          setLeaves((l) => l + 1);
+          setNotifications((n) => [
+            "Auto: Marked a leave (insufficient time)",
+            ...n,
+          ]);
+        }
+      }
+    }}
+  >
+    {isOnline ? "Go Offline" : "Go Online"}
+  </button>
+</div>
+
 
           <div className="tiny-actions">
             <button className="ghost" onClick={addFiveMinutes}>+5 min (test)</button>
