@@ -296,12 +296,12 @@ const dashOffset = circumference - progressCycle * circumference;
 </svg>
 
 <div className="circle-center">
-  <div className="center-minutes">
-    {minutes} <span className="min-label">min</span>
-  </div>
-  <div className="center-hours">
-    {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
-  </div>
+<div className="center-minutes">
+  {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
+</div>
+<div className="center-hours subtle">
+  ({onlineMinutes} min)
+</div>
 </div>
 
         </div>
