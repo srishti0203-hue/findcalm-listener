@@ -270,94 +270,113 @@ const dashOffset = circumference - progressCycle * circumference;
       </section>
 
       <section className="hours-section">
-        <div className="circle-wrapper">
-         <svg width="140" height="140" viewBox="0 0 140 140">
-  <g transform="translate(20,20)">
-    <circle
-      cx="50"
-      cy="50"
-      r={circleRadius}
-      stroke="#111519"
-      strokeWidth="10"
-      fill="none"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r={circleRadius}
-      stroke="#4dd6a1"
-      strokeWidth="10"
-      strokeLinecap="round"
-      fill="none"
-      strokeDasharray={circumference}
-      strokeDashoffset={dashOffset}
-      style={{ transition: "stroke-dashoffset 1s linear" }}
-    />
-  </g>
-</svg>
+      {/* ===== CIRCLE + STATUS SECTION START ===== */}
+<div className="circle-wrapper">
 
-<div className="circle-center">
-<div className="center-minutes">
-  {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
+  <svg width="140" height="140" viewBox="0 0 140 140">
+    <g transform="translate(20,20)">
+      {/* Base circle */}
+      <circle
+        cx="50"
+        cy="50"
+        r={circleRadius}
+        stroke="#111519"
+        strokeWidth="10"
+        fill="none"
+      />
+      {/* Progress circle */}
+      <circle
+        cx="50"
+        cy="50"
+        r={circleRadius}
+        stroke="#4dd6a1"
+        strokeWidth="10"
+        strokeLinecap="round"
+        fill="none"
+        strokeDasharray={circumference}
+        strokeDashoffset={dashOffset}
+        style={{ transition: "stroke-dashoffset 0.8s linear" }}
+      />
+    </g>
+  </svg>
+
+  {/* Center Display */}
+  <div className="circle-center">
+    {/* Listening minutes counter */}
+    <div className="center-minutes">
+      {minutes} <span className="min-label">min</span>
+    </div>
+
+    {/* Online hours counter */}
+    <div className="center-hours subtle">
+      {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
+    </div>
+  </div>
 </div>
-<div className="center-hours subtle">
-  ({onlineMinutes} min)
+
+{/* ===== CIRCLE + STATUS SECTION END ===== */}
+
+
+{/* ===== DETAILS SECTION ===== */}
+<div className="details">
+  <h4>Total Hours Today</h4>
+  <p className="value">
+    {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
+  </p>
+  <p className="attendance">
+    Attendance: {isAvailable ? "Present" : "On Leave"}
+  </p>
+
+  <p className="penalty">⚠ Leave penalty: ₹{leavePenalty} (extra leaves: {extraLeaves})</p>
+  <p className="penalty">💥 Violation penalty: ₹{violationPenalty}</p>
+  <p className="total-penalty">
+    <strong>Total penalty:</strong> ₹{totalPenalty}
+  </p>
+
+  {accountBlocked && blockedUntil && Date.now() < blockedUntil && (
+    <div className="block-warning">
+      ❌ Account blocked until {new Date(blockedUntil).toLocaleString()}
+    </div>
+  )}
 </div>
-</div>
 
-        </div>
 
-        <div className="details">
-          <h4>Total Hours Today</h4>
-          <p className="value">{Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m</p>
-          <p className={`attendance ${isAvailable ? "present" : "leave"}`}>{isAvailable ? "Present" : "On Leave"}</p>
-
-          <p className="penalty">⚠️ Leave penalty: ₹{leavePenalty} (extra leaves: {extraLeaves})</p>
-          <p className="penalty">🚨 Violation penalty: ₹{violationPenalty}</p>
-
-          <p className="total-penalty"><strong>Total penalty: ₹{totalPenalty}</strong></p>
-
-          {accountBlocked && blockedUntil && Date.now() < blockedUntil && (
-            <div className="block-warning">
-              ❌ Account blocked until {new Date(blockedUntil).toLocaleString()}
-            </div>
-          )}
-
-    <div className="actions-row">
+{/* ===== ACTION BUTTONS ===== */}
+<div className="actions-row">
+  {/* Leave Button */}
   <button className="btn leave-btn" onClick={openLeaveModal}>
     🍃 Apply for Leave
   </button>
 
+  {/* Unified Online/Offline Toggle */}
   <button
     className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
     onClick={() => {
-      // Prevent going online if blocked
       if (blockedUntil && Date.now() < blockedUntil) return;
 
-      // Toggle online/offline
       const newStatus = !isOnline;
       setIsOnline(newStatus);
 
       if (newStatus) {
-        // Going ONLINE
-        setNotifications((n) => ["You are now Online", ...n]);
+        setNotifications((n) => ["✅ You are now Online", ...n]);
       } else {
-        // Going OFFLINE
-        setNotifications((n) => ["You went Offline", ...n]);
+        setNotifications((n) => ["⚙️ You went Offline", ...n]);
+      }
 
-        // Auto-mark leave if underworked
-        if (!(minutes >= 60 || onlineMinutes >= 180)) {
-          setLeaves((l) => l + 1);
-          setNotifications((n) => [
-            "Auto: Marked a leave (insufficient time)",
-            ...n,
-          ]);
-        }
+      // Auto-mark leave if requirements not met
+      if (!(minutes >= 60 || onlineMinutes >= 180)) {
+        setLeaves((l) => l + 1);
+        setNotifications((n) => [
+          "⚠️ Auto-marked a leave (insufficient time)",
+          ...n,
+        ]);
       }
     }}
   >
     {isOnline ? "Go Offline" : "Go Online"}
   </button>
+</div>
+
 </div>
 
 
