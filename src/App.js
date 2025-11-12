@@ -323,7 +323,7 @@ const dashOffset = circumference - progressCycle * circumference;
             </div>
           )}
 
-        <div className="actions-row">
+      <div className="actions-row">
   <button className="btn leave-btn" onClick={openLeaveModal}>
     🍃 Apply for Leave
   </button>
@@ -331,10 +331,9 @@ const dashOffset = circumference - progressCycle * circumference;
   <button
     className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
     onClick={() => {
-      // Prevent going online if blocked
+      // Prevent if account is blocked
       if (blockedUntil && Date.now() < blockedUntil) return;
 
-      // Toggle online/offline
       const newStatus = !isOnline;
       setIsOnline(newStatus);
 
