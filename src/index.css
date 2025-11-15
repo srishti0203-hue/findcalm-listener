@@ -89,3 +89,25 @@ body { background: var(--bg); color: #e6eef0; -webkit-font-smoothing:antialiased
   .dashboard{ padding:28px; }
   .center-minutes { font-size:20px; }
 }
+/* --- Button Layout Fix for Actions Section --- */
+.actions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tiny-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
