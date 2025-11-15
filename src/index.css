@@ -111,3 +111,62 @@ body { background: var(--bg); color: #e6eef0; -webkit-font-smoothing:antialiased
   align-items: center;
   gap: 8px;
 }
+/* ====== Footer Status Bar ====== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ddd;
+  font-size: 14px;
+  padding: 6px 16px;
+  background: transparent;
+  width: 100%;
+  position: fixed;
+  bottom: 8px;
+}
+
+.left-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* 🟢 ONLINE STATE */
+.online-dot {
+  background-color: #2ecc71;
+  box-shadow: 0 0 6px #2ecc71;
+  animation: pulseGreen 2s infinite;
+}
+
+/* 🔴 OFFLINE STATE */
+.offline-dot {
+  background-color: #e74c3c;
+  box-shadow: 0 0 6px #e74c3c;
+}
+
+.footer-right {
+  margin-left: auto;
+  opacity: 0.8;
+}
+
+/* Optional soft pulsing glow for online dot */
+@keyframes pulseGreen {
+  0% {
+    box-shadow: 0 0 6px #2ecc71;
+  }
+  50% {
+    box-shadow: 0 0 15px #2ecc71;
+  }
+  100% {
+    box-shadow: 0 0 6px #2ecc71;
+  }
+}
+
+
