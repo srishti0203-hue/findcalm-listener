@@ -379,16 +379,16 @@ const dashOffset = circumference - progressCycle * circumference;
         </div>
       )}
 
-      <footer className="footer">
-        <div>
-          <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`} />
-          {isOnline ? "Online" : "Offline"}
-        </div>
+     <footer className="status-bar">
+  <div className="left-status">
+    <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
+    <span>{isOnline ? "Online" : "Offline"}</span>
+  </div>
+  <div className="footer-right">
+    <small>FindCalm • Phase 1</small>
+  </div>
+</footer>
 
-        <div className="credits">
-          <small>FindCalm • Phase 1</small>
-        </div>
-      </footer>
     </div>
   );
 }
