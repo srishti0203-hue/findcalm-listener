@@ -168,5 +168,17 @@ body { background: var(--bg); color: #e6eef0; -webkit-font-smoothing:antialiased
     box-shadow: 0 0 6px #2ecc71;
   }
 }
+.online-active {
+  background-color: #1e824c;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.offline-active {
+  background-color: #b03a2e;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(192, 57, 43, 0.5);
+}
+
 
 
