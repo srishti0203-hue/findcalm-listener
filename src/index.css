@@ -179,6 +179,13 @@ body { background: var(--bg); color: #e6eef0; -webkit-font-smoothing:antialiased
   color: #fff;
   box-shadow: 0 0 8px rgba(192, 57, 43, 0.5);
 }
+.offline-active {
+  background-color: #b03a2e;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(192, 57, 43, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 
 
 
