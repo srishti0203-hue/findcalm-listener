@@ -346,7 +346,7 @@ const dashOffset = circumference - progressCycle * circumference;
   <div className="actions-row">
     <button className="btn leave-btn" onClick={openLeaveModal}>🪴 Apply for Leave</button>
    <button
-  <button
+  <button>
   className={`btn online-toggle ${isOnline ? "online-active" : "offline-active"}`}
   onClick={() => {
     // Prevent toggling if blocked
