@@ -361,6 +361,7 @@ const dashOffset = circumference - progressCycle * circumference;
     <button className="ghost" onClick={addOneHourToOnline}>+1 h online (test)</button>
     <button className="ghost" onClick={addViolation}>⚠ Add Violation (test)</button>
   </div>
+  </div>
   </section>
 
       {/* Leave modal (local only) */}
