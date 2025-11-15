@@ -342,49 +342,26 @@ const dashOffset = circumference - progressCycle * circumference;
 
 
 {/* ===== ACTION BUTTONS ===== */}
-<div className="actions-row">
-  {/* Leave Button */}
-  <button className="btn leave-btn" onClick={openLeaveModal}>
-    🍃 Apply for Leave
-  </button>
+<div className="actions-section">
+  <div className="actions-row">
+    <button className="btn leave-btn" onClick={openLeaveModal}>🪴 Apply for Leave</button>
+    <button 
+      className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
+      onClick={() => {
+        if (blockedUntil && Date.now() < blockedUntil) return;
+        setIsOnline(prev => !prev);
+      }}
+    >
+      {isOnline ? "Go Offline" : "Go Online"}
+    </button>
+  </div>
 
-  {/* Unified Online/Offline Toggle */}
-  <button
-    className={`btn online-toggle ${isOnline ? "online" : "offline"}`}
-    onClick={() => {
-      if (blockedUntil && Date.now() < blockedUntil) return;
-
-      const newStatus = !isOnline;
-      setIsOnline(newStatus);
-
-      if (newStatus) {
-        setNotifications((n) => ["✅ You are now Online", ...n]);
-      } else {
-        setNotifications((n) => ["⚙️ You went Offline", ...n]);
-      }
-
-      // Auto-mark leave if requirements not met
-      if (!(minutes >= 60 || onlineMinutes >= 180)) {
-        setLeaves((l) => l + 1);
-        setNotifications((n) => [
-          "⚠️ Auto-marked a leave (insufficient time)",
-          ...n,
-        ]);
-      }
-    }}
-  >
-    {isOnline ? "Go Offline" : "Go Online"}
-  </button>
-</div>
-
-
-
-          <div className="tiny-actions">
-            <button className="ghost" onClick={addFiveMinutes}>+5 min (test)</button>
-            <button className="ghost" onClick={addOneHourToOnline}>+1h online (test)</button>
-            <button className="ghost" onClick={addViolation}>⚠️ Add Violation (test)</button>
-          </div>
-      </section>
+  <div className="tiny-actions">
+    <button className="ghost" onClick={addFiveMinutes}>+5 min (test)</button>
+    <button className="ghost" onClick={addOneHourToOnline}>+1 h online (test)</button>
+    <button className="ghost" onClick={addViolation}>⚠ Add Violation (test)</button>
+  </div>
+  </section>
 
       {/* Leave modal (local only) */}
       {showLeaveModal && (
