@@ -46,6 +46,10 @@ export default function App() {
   const [notifications, setNotifications] = useState(
     persisted?.notifications ?? ["Missed call from user #102"]
   );
+  const [notifications, setNotifications] = useState([]);
+const [unreadCount, setUnreadCount] = useState(0);
+const [showNotifPanel, setShowNotifPanel] = useState(false);
+
 
   // status edit (small)
   const [status, setStatus] = useState(persisted?.status ?? "🌼 Feeling calm and open for reflective conversations tonight.");
