@@ -40,15 +40,17 @@ export default function App() {
   const [leaves, setLeaves] = useState(persisted?.leaves ?? 0);
   const [violationCount, setViolationCount] = useState(persisted?.violationCount ?? 0);
   const [blockedUntil, setBlockedUntil] = useState(persisted?.blockedUntil ?? null);
-
   const [showNotif, setShowNotif] = useState(false);
-  const [showLeaveModal, setShowLeaveModal] = useState(false);
-  const [notifications, setNotifications] = useState(
-    persisted?.notifications ?? ["Missed call from user #102"]
-  );
-  const [notifications, setNotifications] = useState([]);
+const [showLeaveModal, setShowLeaveModal] = useState(false);
+
+// ✅ STEP 1: Correct implementation
+const [notifications, setNotifications] = useState(
+    persisted?.notifications ?? []
+);
 const [unreadCount, setUnreadCount] = useState(0);
 const [showNotifPanel, setShowNotifPanel] = useState(false);
+
+  
 
 
   // status edit (small)
