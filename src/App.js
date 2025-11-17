@@ -191,9 +191,18 @@ const dashOffset = circumference - progressCycle * circumference;
   const confirmLeave = () => {
     setLeaves((l) => l + 1);
     setShowLeaveModal(false);
-    setNotifications((n) => ["Leave requested (local) — counted", ...n]);
-    // TODO: POST /api/leaves in Phase 2
-  };
+   // Add a clean notification entry
+setNotifications((n) => [
+    {
+        type: "leave_request",
+        message: "🌼 Leave requested",
+        time: Date.now(),
+    },
+    ...n,
+]);
+
+// Increase unread count
+setUnreadCount((c) => c + 1);
 
   // Add violation (test/admin button)
   const addViolation = () => {
