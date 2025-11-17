@@ -1,3 +1,6 @@
+const [notifications, setNotifications] = useState([]);
+const [unreadCount, setUnreadCount] = useState(0);
+const [showNotifPanel, setShowNotifPanel] = useState(false);
 import React, { useEffect, useState, useRef } from "react";
 import "./index.css";
 
