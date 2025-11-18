@@ -217,6 +217,12 @@ setUnreadCount((c) => c + 1);
       setNotifications((n) => [`Violation #${next} recorded`, ...n]);
     }
   };
+    // Open notifications panel and clear unread count
+const handleOpenNotifications = () => {
+    setShowNotifPanel(true);
+    setUnreadCount(0);  // Clear unread badge
+};
+
 
   // Save edited status
   const toggleEditStatus = () => {
