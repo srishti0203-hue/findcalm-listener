@@ -416,30 +416,33 @@ const handleOpenNotifications = () => {
   </div>
   </section>
 
-      {/* Leave modal (local only) */}
+           {/* Leave modal (local only) */}
       {showLeaveModal && (
         <div className="modal">
           <div className="modal-card">
             <h3>Apply for Leave</h3>
             <p>You have {Math.max(0, allowedLeaves - leaves)} free leaves remaining this month.</p>
             <p>Extra leaves cost ₹100 each.</p>
-            <div style={{display:"flex", gap:8, marginTop:12}}>
+
+            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button className="btn" onClick={confirmLeave}>Confirm Leave</button>
               <button className="btn ghost" onClick={() => setShowLeaveModal(false)}>Cancel</button>
             </div>
-       <footer className="status-bar">
-  <div className="left-status">
-    <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
-    <span>{isOnline ? "Online" : "Offline"}</span>
-  </div>
-  <div className="footer-right">
-    <small>FindCalm • Phase 1</small>
-  </div>
-</footer>
+          </div>
+        </div>
+      )}
 
-</div>  {/* close status bar wrapper */}
-</div>  {/* close main app wrapper */}
-);      // end return
-}       // end App component
+      {/* Status footer */}
+      <footer className="status-bar">
+        <div className="left-status">
+          <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
+          <span>{isOnline ? "Online" : "Offline"}</span>
+        </div>
 
-export default App;
+        <div className="footer-right">
+          <small>FindCalm • Phase 1</small>
+        </div>
+      </footer>
+    </div>  {/* close dashboard wrapper */}
+  );        // end return
+}           // end App component
