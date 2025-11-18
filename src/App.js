@@ -438,8 +438,12 @@ const handleOpenNotifications = () => {
     </div>
         </footer>
 
-      </div> {/* status bar wrapper */}
-    </div> {/* main app wrapper */}
+  </div> 
+{/* status bar wrapper */}
+
+</div> 
+{/* main app wrapper */}
+
   ); // end return
 } // end App component
 
