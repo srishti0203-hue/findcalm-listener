@@ -441,6 +441,8 @@ const handleOpenNotifications = () => {
   </div>
 </footer>
 
-    </div>
+      </div>   // last wrapper
   );
-}
+}            // close App function
+
+export default App;
