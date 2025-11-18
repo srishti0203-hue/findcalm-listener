@@ -429,21 +429,19 @@ const handleOpenNotifications = () => {
             </div>
           </div>
         </div>
-      )}
+  <footer className="status-bar">
+   <div className="left-status">
+      <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
+      <span>{isOnline ? "Online" : "Offline"}</span>
+   </div>
 
-     <footer className="status-bar">
-  <div className="left-status">
-    <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
-    <span>{isOnline ? "Online" : "Offline"}</span>
-  </div>
-  <div className="footer-right">
-    <small>FindCalm • Phase 1</small>
-        </footer>
-      </div>   {/* status bar wrapper */}
-    </div>     {/* main app wrapper */}
+   <div className="footer-right">
+      <small>FindCalm • Phase 1</small>
+   </div>
+</footer>
 
-  );           // close return()
-}              // close App component
+</div> {/* status bar wrapper */}
+</div> {/* main app wrapper */}
 
-export default App;
-
+);  // close return()
+}   // close App()
