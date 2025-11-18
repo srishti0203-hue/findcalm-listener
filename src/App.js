@@ -427,20 +427,19 @@ const handleOpenNotifications = () => {
               <button className="btn" onClick={confirmLeave}>Confirm Leave</button>
               <button className="btn ghost" onClick={() => setShowLeaveModal(false)}>Cancel</button>
             </div>
-          <footer className="status-bar">
+       <footer className="status-bar">
   <div className="left-status">
     <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
     <span>{isOnline ? "Online" : "Offline"}</span>
   </div>
-
   <div className="footer-right">
     <small>FindCalm • Phase 1</small>
   </div>
+</footer>
 
-</div> {/* close status bar wrapper */}
-</div> {/* close main app wrapper */}
-
-);  // end return
-}   // end App component
+</div>  {/* close status bar wrapper */}
+</div>  {/* close main app wrapper */}
+);      // end return
+}       // end App component
 
 export default App;
