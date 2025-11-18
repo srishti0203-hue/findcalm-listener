@@ -186,6 +186,48 @@ body { background: var(--bg); color: #e6eef0; -webkit-font-smoothing:antialiased
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.notif-panel {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 260px;
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 200;
+}
+
+.notif-panel h4 {
+  margin: 0 0 10px 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.notif-item {
+  background: #222;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+.notif-msg {
+  color: #fff;
+  font-size: 14px;
+}
+
+.notif-time {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.empty {
+  color: #aaa;
+  font-size: 14px;
+  text-align: center;
+}
+
 
 
 
