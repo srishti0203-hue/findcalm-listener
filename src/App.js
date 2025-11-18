@@ -444,7 +444,7 @@ const handleOpenNotifications = () => {
 </div> 
 {/* main app wrapper */}
 
- ) } // end return
+); // end return
 } // end App component
 
 export default App;
