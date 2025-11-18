@@ -441,8 +441,11 @@ const handleOpenNotifications = () => {
   </div>
 </footer>
 
-      </div>   // last wrapper
-  );
-}            // close App function
+</div>      // last wrapper   ❌ REMOVE THIS
+        </footer>
+      </div>   // this closes the main wrapper inside return
+    );         // this closes return(...)
+}              // this closes the App function
 
 export default App;
+
