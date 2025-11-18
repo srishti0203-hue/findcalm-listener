@@ -222,8 +222,26 @@ const handleOpenNotifications = () => {
     setShowNotifPanel(true);
     setUnreadCount(0);  // Clear unread badge
 };
+    {/* Notification Panel */}
+{showNotifPanel && (
+  <div className="notif-panel">
+    <h4>Notifications</h4>
 
-
+    {notifications.length === 0 ? (
+      <p className="empty">No new notifications</p>
+    ) : (
+      notifications.map((n, i) => (
+        <div key={i} className="notif-item">
+          <div className="notif-msg">{n.message}</div>
+          <div className="notif-time">
+            {new Date(n.time).toLocaleString()}
+          </div>
+        </div>
+      ))
+    )}
+  </div>
+)}
+    
   // Save edited status
   const toggleEditStatus = () => {
     if (isEditingStatus) {
