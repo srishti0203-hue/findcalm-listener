@@ -437,8 +437,8 @@ const handleOpenNotifications = () => {
             <small>FindCalm • Phase 1</small>
           </div>
         </footer>
-       </div> {/* close footer */}
-       </div> {/* close left-status wrapper */}
-       </div> {/* close main app wrapper */}
-       ); // end return
-       } // end App component
+      </div> {/* close footer-right */}
+</div> {/* close status bar wrapper */}
+</div> {/* close main app wrapper */}
+); // end return
+} // end App component
