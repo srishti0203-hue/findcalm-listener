@@ -438,12 +438,12 @@ const handleOpenNotifications = () => {
   </div>
   <div className="footer-right">
     <small>FindCalm • Phase 1</small>
-</footer>
+        </footer>
+      </div>   {/* status bar wrapper */}
+    </div>     {/* main app wrapper */}
 
-    </div>   // notification wrapper
-</div>       // last wrapper
-
-);
-}
+  );           // close return()
+}              // close App component
 
 export default App;
+
