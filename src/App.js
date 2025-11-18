@@ -247,8 +247,8 @@ const handleOpenNotifications = () => {
         </div>
 
         <div className="header-right">
-          <div className="notif" onClick={() => setShowNotif((s) => !s)}>
-            🔔 <span className="badge">{notifications.length}</span>
+      <div className="notif-icon" onClick={handleOpenNotifications}>
+      🔔 <span className="badge">{notifications.length}</span>
           </div>
           <div className="profile">
             <img alt="profile" src="https://cdn-icons-png.flaticon.com/512/706/706830.png" />
