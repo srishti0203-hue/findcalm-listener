@@ -450,5 +450,3 @@ const handleOpenNotifications = () => {
 export default App;
 
 
-export default App;
-
