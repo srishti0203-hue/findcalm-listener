@@ -315,7 +315,6 @@ export default function App() {
                   return;
                 }
                 const newStatus = !isOnline;
-                setIsOnline(newStatus);
               // Remove notifications for online/offline toggle
 setIsOnline(newStatus);
 
