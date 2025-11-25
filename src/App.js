@@ -432,7 +432,7 @@ const handleOpenNotifications = () => {
         </div>
       )}
 
-      {/* Status footer - ALWAYS OUTSIDE MODAL */}
+           {/* Status footer - ALWAYS OUTSIDE MODAL */}
       <footer className="status-bar">
         <div className="left-status">
           <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
@@ -443,10 +443,12 @@ const handleOpenNotifications = () => {
           <small>FindCalm • Phase 1</small>
         </div>
       </footer>
-
     </div> 
-  ); // end return
-} // end App component
+  ); 
+}  // end App component
+
+export default App;
+
 
 export default App;
 
