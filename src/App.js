@@ -316,8 +316,9 @@ export default function App() {
                 }
                 const newStatus = !isOnline;
                 setIsOnline(newStatus);
-                setNotifications((n) => [newStatus ? "✅ You are now Online" : "⚙️ You are now Offline", ...n]);
-              }}
+              // Remove notifications for online/offline toggle
+setIsOnline(newStatus);
+
             >
               {isOnline ? "Online" : "Offline"}
             </button>
