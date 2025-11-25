@@ -175,11 +175,11 @@ export default function App() {
     }
   };
 
-  const handleOpenNotifications = () => {
-    setShowNotifPanel(true);
-    setUnreadCount(0);
-  };
-
+const handleOpenNotifications = () => {
+  setShowNotifPanel(true);
+  setUnreadCount(0);   // reset unread badge
+};
+  
   const toggleEditStatus = () => {
     if (isEditingStatus) setStatus(tempStatus);
     setIsEditingStatus(!isEditingStatus);
