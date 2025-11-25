@@ -427,17 +427,6 @@ const handleOpenNotifications = () => {
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button className="btn" onClick={confirmLeave}>Confirm Leave</button>
               <button className="btn ghost" onClick={() => setShowLeaveModal(false)}>Cancel</button>
-              {/* Leave modal (local only) */}
-      {showLeaveModal && (
-        <div className="modal">
-          <div className="modal-card">
-            <h3>Apply for Leave</h3>
-            <p>You have {Math.max(0, allowedLeaves - leaves)} free leaves remaining this month.</p>
-            <p>Extra leaves cost ₹100 each.</p>
-
-            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              <button className="btn" onClick={confirmLeave}>Confirm Leave</button>
-              <button className="btn ghost" onClick={() => setShowLeaveModal(false)}>Cancel</button>
             </div>
           </div>
         </div>
