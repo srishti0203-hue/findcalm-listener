@@ -309,17 +309,18 @@ const handleOpenNotifications = () => {
             <button className="btn leave-btn" onClick={openLeaveModal}>🪴 Apply for Leave</button>
             <button
               className={`btn online-toggle ${isOnline ? "online-active" : "offline-active"}`}
-              onClick={() => {
-                if (blockedUntil && Date.now() < blockedUntil) {
-                  alert("Your account is still blocked until " + new Date(blockedUntil).toLocaleString());
-                  return;
-                }
-                const newStatus = !isOnline;
-              // Remove notifications for online/offline toggle
-setIsOnline(newStatus);
+            onClick={() => {
+  if (blockedUntil && Date.now() < new Date(blockedUntil).getTime()) {
+    alert("Your account is still blocked until " + new Date(blockedUntil).toLocaleString());
+    return;
+  }
 
-            >
-              {isOnline ? "Online" : "Offline"}
+  const newStatus = !isOnline;
+  setIsOnline(newStatus);   // clean toggle — no notification created
+}}
+
+>
+  {isOnline ? "Online" : "Offline"}
             </button>
           </div>
 
