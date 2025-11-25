@@ -1,16 +1,6 @@
+// src/App.js
 import React, { useEffect, useState, useRef } from "react";
 import "./index.css";
-
-/**
- * Phase-1 Dashboard
- * - Auto timer while Online (adds 1 minute every real minute)
- * - Minutes progress circle (0..60)
- * - 3-hour online rule (180 minutes)
- * - 4 free leaves/month, extra leaves ₹100 each (local only)
- * - Violation escalation: 1->2500, 2->5000, 3+->10000 + blocked 72h
- * - Notifications popup & online/offline toggle
- * - LocalStorage persistence
- */
 
 const STORAGE_KEY = "findcalm_dashboard_v1";
 
@@ -22,7 +12,6 @@ function loadState() {
     return null;
   }
 }
-
 function saveState(obj) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
@@ -30,39 +19,29 @@ function saveState(obj) {
 }
 
 export default function App() {
-  // load persisted state
   const persisted = loadState();
 
-  // core states
   const [isOnline, setIsOnline] = useState(persisted?.isOnline ?? false);
-  const [minutes, setMinutes] = useState(persisted?.minutes ?? 0); // listening minutes
-  const [onlineMinutes, setOnlineMinutes] = useState(persisted?.onlineMinutes ?? 0); // total online duration minutes
+  const [minutes, setMinutes] = useState(persisted?.minutes ?? 0);
+  const [onlineMinutes, setOnlineMinutes] = useState(persisted?.onlineMinutes ?? 0);
   const [leaves, setLeaves] = useState(persisted?.leaves ?? 0);
   const [violationCount, setViolationCount] = useState(persisted?.violationCount ?? 0);
   const [blockedUntil, setBlockedUntil] = useState(persisted?.blockedUntil ?? null);
+
   const [showNotif, setShowNotif] = useState(false);
-const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
 
-// ✅ STEP 1: Correct implementation
-const [notifications, setNotifications] = useState(
-    persisted?.notifications ?? []
-);
-const [unreadCount, setUnreadCount] = useState(0);
-const [showNotifPanel, setShowNotifPanel] = useState(false);
+  const [notifications, setNotifications] = useState(persisted?.notifications ?? []);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifPanel, setShowNotifPanel] = useState(false);
 
-  
-
-
-  // status edit (small)
   const [status, setStatus] = useState(persisted?.status ?? "🌼 Feeling calm and open for reflective conversations tonight.");
   const [isEditingStatus, setIsEditingStatus] = useState(false);
   const [tempStatus, setTempStatus] = useState(status);
 
-  // refs for timers
   const minuteTimerRef = useRef(null);
   const onlineTimerRef = useRef(null);
 
-  // compute derived values
   const allowedLeaves = 4;
   const extraLeaves = Math.max(0, leaves - allowedLeaves);
   const leavePenalty = extraLeaves * 100;
@@ -75,31 +54,24 @@ const [showNotifPanel, setShowNotifPanel] = useState(false);
     violationPenalty = 10000;
     accountBlocked = true;
   }
-
   const totalPenalty = leavePenalty + violationPenalty;
 
   const isAvailable = minutes >= 60 || onlineMinutes >= 180;
-  const attendanceStatus = isAvailable ? "Present" : "On Leave";
 
-  // circle progress (minutes/60)
- // circle progress (looping every 60 minutes, continues counting in backend)
-// Circle progress (loops every 60 minutes)
-const circleRadius = 50;
-const circumference = 2 * Math.PI * circleRadius;
+  // Circle math
+  const circleRadius = 50;
+  const circumference = 2 * Math.PI * circleRadius;
+  const progressCycle = (minutes % 60) / 60;
+  const dashOffset = circumference - progressCycle * circumference;
 
-// progressCycle keeps looping every 60 minutes (so 61, 62 mins still animate)
-const progressCycle = (minutes % 60) / 60;
-const dashOffset = circumference - progressCycle * circumference;
-
-  // blocked check (in case blockedUntil persisted)
+  // blocked check
   useEffect(() => {
     if (!blockedUntil) return;
     const now = Date.now();
     if (now >= blockedUntil) {
       setBlockedUntil(null);
-      setViolationCount(0); // optionally reset violations after block period ends (you can change this)
+      setViolationCount(0);
     } else {
-      // set timer to auto-unblock when time passes
       const t = setTimeout(() => {
         setBlockedUntil(null);
         setViolationCount(0);
@@ -108,7 +80,7 @@ const dashOffset = circumference - progressCycle * circumference;
     }
   }, [blockedUntil]);
 
-  // persist state anytime relevant values change
+  // persist state
   useEffect(() => {
     saveState({
       isOnline,
@@ -118,34 +90,29 @@ const dashOffset = circumference - progressCycle * circumference;
       violationCount,
       blockedUntil,
       notifications,
-      status
+      status,
     });
   }, [isOnline, minutes, onlineMinutes, leaves, violationCount, blockedUntil, notifications, status]);
 
-  // start/stop timers when online changes
+  // timers
   useEffect(() => {
-    // if blocked, don't allow going online
     if (blockedUntil && Date.now() < blockedUntil) {
       setIsOnline(false);
       return;
     }
 
     if (isOnline) {
-      // minute-by-minute "listening" increment
-      // minuteTimerRef handles listening minutes (assume listening while online)
       if (!minuteTimerRef.current) {
         minuteTimerRef.current = setInterval(() => {
           setMinutes((m) => m + 1);
-        }, 60000); // 60000ms = 1 minute
+        }, 60000);
       }
-      // online duration timer
       if (!onlineTimerRef.current) {
         onlineTimerRef.current = setInterval(() => {
           setOnlineMinutes((om) => om + 1);
         }, 60000);
       }
     } else {
-      // clear timers
       if (minuteTimerRef.current) {
         clearInterval(minuteTimerRef.current);
         minuteTimerRef.current = null;
@@ -156,7 +123,6 @@ const dashOffset = circumference - progressCycle * circumference;
       }
     }
 
-    // cleanup on unmount
     return () => {
       if (minuteTimerRef.current) {
         clearInterval(minuteTimerRef.current);
@@ -167,17 +133,12 @@ const dashOffset = circumference - progressCycle * circumference;
         onlineTimerRef.current = null;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline, blockedUntil]);
 
-  // when user toggles offline, check attendance and apply leave if needed
   const handleToggleOnline = () => {
-    // if currently blocked, prevent toggle
     if (blockedUntil && Date.now() < blockedUntil) return;
 
     if (isOnline) {
-      // going offline now: evaluate whether this day/session counts as leave
-      // if neither condition satisfied -> mark as leave
       if (!(minutes >= 60 || onlineMinutes >= 180)) {
         setLeaves((l) => l + 1);
         setNotifications((n) => [`Auto: Marked a leave (insufficient time)`, ...n]);
@@ -186,30 +147,26 @@ const dashOffset = circumference - progressCycle * circumference;
     setIsOnline((s) => !s);
   };
 
-  // manual "Apply for Leave" (Option A)
   const openLeaveModal = () => setShowLeaveModal(true);
   const confirmLeave = () => {
     setLeaves((l) => l + 1);
     setShowLeaveModal(false);
-   // Add a clean notification entry
-setNotifications((n) => [
-    {
+    setNotifications((n) => [
+      {
         type: "leave_request",
         message: "🌼 Leave requested",
         time: Date.now(),
-    },
-    ...n,
-]);
+      },
+      ...n,
+    ]);
+    setUnreadCount((c) => c + 1);
+  };
 
-// Increase unread count
-setUnreadCount((c) => c + 1);
-
-  // Add violation (test/admin button)
   const addViolation = () => {
     const next = violationCount + 1;
     setViolationCount(next);
     if (next >= 3) {
-      const until = Date.now() + 72 * 3600 * 1000; // 72 hours
+      const until = Date.now() + 72 * 3600 * 1000; // 72h
       setBlockedUntil(until);
       setNotifications((n) => [`Violation #${next}: Account blocked until ${new Date(until).toLocaleString()}`, ...n]);
       setIsOnline(false);
@@ -217,45 +174,20 @@ setUnreadCount((c) => c + 1);
       setNotifications((n) => [`Violation #${next} recorded`, ...n]);
     }
   };
-    // Open notifications panel and clear unread count
-const handleOpenNotifications = () => {
-    setShowNotifPanel(true);
-    setUnreadCount(0);  // Clear unread badge
-};
-    {/* Notification Panel */}
-{showNotifPanel && (
-  <div className="notif-panel">
-    <h4>Notifications</h4>
 
-    {notifications.length === 0 ? (
-      <p className="empty">No new notifications</p>
-    ) : (
-      notifications.map((n, i) => (
-        <div key={i} className="notif-item">
-          <div className="notif-msg">{n.message}</div>
-          <div className="notif-time">
-            {new Date(n.time).toLocaleString()}
-          </div>
-        </div>
-      ))
-    )}
-  </div>
-)}
-    
-  // Save edited status
+  const handleOpenNotifications = () => {
+    setShowNotifPanel(true);
+    setUnreadCount(0);
+  };
+
   const toggleEditStatus = () => {
-    if (isEditingStatus) {
-      setStatus(tempStatus);
-    }
+    if (isEditingStatus) setStatus(tempStatus);
     setIsEditingStatus(!isEditingStatus);
   };
 
-  // quick debug helpers (only for preview — you can remove later)
-  // NOTE: Do not ship debug auto-increment in production. For now we keep minute timer real-time.
   const addFiveMinutes = () => setMinutes((m) => m + 5);
   const addOneHourToOnline = () => setOnlineMinutes((om) => om + 60);
 
-  // render
   return (
     <div className="dashboard">
       <header className="header">
@@ -265,8 +197,8 @@ const handleOpenNotifications = () => {
         </div>
 
         <div className="header-right">
-      <div className="notif-icon" onClick={handleOpenNotifications}>
-      🔔 <span className="badge">{notifications.length}</span>
+          <div className="notif-icon" onClick={handleOpenNotifications}>
+            🔔 <span className="badge">{notifications.length}</span>
           </div>
           <div className="profile">
             <img alt="profile" src="https://cdn-icons-png.flaticon.com/512/706/706830.png" />
@@ -274,11 +206,30 @@ const handleOpenNotifications = () => {
         </div>
       </header>
 
+      {/* popup small notif (optional) */}
       {showNotif && (
         <div className="notif-popup">
           {notifications.map((n, i) => (
-            <p key={i}>{n}</p>
+            <p key={i}>{typeof n === "string" ? n : n.message}</p>
           ))}
+        </div>
+      )}
+
+      {/* Notification panel (inside return) */}
+      {showNotifPanel && (
+        <div className="notif-panel">
+          <h4>Notifications</h4>
+          {notifications.length === 0 ? (
+            <p className="empty">No new notifications</p>
+          ) : (
+            notifications.map((n, i) => (
+              <div key={i} className="notif-item">
+                <div className="notif-msg">{typeof n === "string" ? n : n.message}</div>
+                <div className="notif-time">{(n && n.time) ? new Date(n.time).toLocaleString() : ""}</div>
+              </div>
+            ))
+          )}
+          <button onClick={() => setShowNotifPanel(false)}>Close</button>
         </div>
       )}
 
@@ -309,121 +260,84 @@ const handleOpenNotifications = () => {
       </section>
 
       <section className="hours-section">
-      {/* ===== CIRCLE + STATUS SECTION START ===== */}
-<div className="circle-wrapper">
+        {/* circle + status */}
+        <div className="circle-wrapper">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <g transform="translate(20,20)">
+              <circle cx="50" cy="50" r={circleRadius} stroke="#111519" strokeWidth="10" fill="none" />
+              <circle
+                cx="50"
+                cy="50"
+                r={circleRadius}
+                stroke="#4dd6a1"
+                strokeWidth="10"
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray={circumference}
+                strokeDashoffset={dashOffset}
+                style={{ transition: "stroke-dashoffset 0.8s linear" }}
+              />
+            </g>
+          </svg>
 
-  <svg width="140" height="140" viewBox="0 0 140 140">
-    <g transform="translate(20,20)">
-      {/* Base circle */}
-      <circle
-        cx="50"
-        cy="50"
-        r={circleRadius}
-        stroke="#111519"
-        strokeWidth="10"
-        fill="none"
-      />
-      {/* Progress circle */}
-      <circle
-        cx="50"
-        cy="50"
-        r={circleRadius}
-        stroke="#4dd6a1"
-        strokeWidth="10"
-        strokeLinecap="round"
-        fill="none"
-        strokeDasharray={circumference}
-        strokeDashoffset={dashOffset}
-        style={{ transition: "stroke-dashoffset 0.8s linear" }}
-      />
-    </g>
-  </svg>
+          <div className="circle-center">
+            <div className="center-minutes">
+              {minutes} <span className="min-label">min</span>
+            </div>
+            <div className="center-hours subtle">{Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m</div>
+          </div>
+        </div>
 
-  {/* Center Display */}
-  <div className="circle-center">
-    {/* Listening minutes counter */}
-    <div className="center-minutes">
-      {minutes} <span className="min-label">min</span>
-    </div>
+        {/* details */}
+        <div className="details">
+          <h4>Total Hours Today</h4>
+          <p className="value">{Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m</p>
+          <p className="attendance">Attendance: {isAvailable ? "Present" : "On Leave"}</p>
 
-    {/* Online hours counter */}
-    <div className="center-hours subtle">
-      {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
-    </div>
-  </div>
-</div>
+          <p className="penalty">⚠ Leave penalty: ₹{leavePenalty} (extra leaves: {extraLeaves})</p>
+          <p className="penalty">💥 Violation penalty: ₹{violationPenalty}</p>
+          <p className="total-penalty"><strong>Total penalty:</strong> ₹{totalPenalty}</p>
 
-{/* ===== CIRCLE + STATUS SECTION END ===== */}
+          {accountBlocked && blockedUntil && Date.now() < blockedUntil && (
+            <div className="block-warning">❌ Account blocked until {new Date(blockedUntil).toLocaleString()}</div>
+          )}
+        </div>
 
+        {/* actions */}
+        <div className="actions-section">
+          <div className="actions-row">
+            <button className="btn leave-btn" onClick={openLeaveModal}>🪴 Apply for Leave</button>
+            <button
+              className={`btn online-toggle ${isOnline ? "online-active" : "offline-active"}`}
+              onClick={() => {
+                if (blockedUntil && Date.now() < blockedUntil) {
+                  alert("Your account is still blocked until " + new Date(blockedUntil).toLocaleString());
+                  return;
+                }
+                const newStatus = !isOnline;
+                setIsOnline(newStatus);
+                setNotifications((n) => [newStatus ? "✅ You are now Online" : "⚙️ You are now Offline", ...n]);
+              }}
+            >
+              {isOnline ? "Online" : "Offline"}
+            </button>
+          </div>
 
-{/* ===== DETAILS SECTION ===== */}
-<div className="details">
-  <h4>Total Hours Today</h4>
-  <p className="value">
-    {Math.floor(onlineMinutes / 60)}h {onlineMinutes % 60}m
-  </p>
-  <p className="attendance">
-    Attendance: {isAvailable ? "Present" : "On Leave"}
-  </p>
+          <div className="tiny-actions">
+            <button className="ghost" onClick={addFiveMinutes}>+5 min (test)</button>
+            <button className="ghost" onClick={addOneHourToOnline}>+1 h online (test)</button>
+            <button className="ghost" onClick={addViolation}>⚠ Add Violation (test)</button>
+          </div>
+        </div>
+      </section>
 
-  <p className="penalty">⚠ Leave penalty: ₹{leavePenalty} (extra leaves: {extraLeaves})</p>
-  <p className="penalty">💥 Violation penalty: ₹{violationPenalty}</p>
-  <p className="total-penalty">
-    <strong>Total penalty:</strong> ₹{totalPenalty}
-  </p>
-
-  {accountBlocked && blockedUntil && Date.now() < blockedUntil && (
-    <div className="block-warning">
-      ❌ Account blocked until {new Date(blockedUntil).toLocaleString()}
-    </div>
-  )}
-</div>
-
-
-{/* ===== ACTION BUTTONS ===== */}
-<div className="actions-section">
-  <div className="actions-row">
-    <button className="btn leave-btn" onClick={openLeaveModal}>🪴 Apply for Leave</button>
-   <button
-  className={`btn online-toggle ${isOnline ? "online-active" : "offline-active"}`}
-  onClick={() => {
-    // Prevent toggling if blocked
-    if (blockedUntil && Date.now() < new Date(blockedUntil).getTime()) {
-      alert("Your account is still blocked until " + new Date(blockedUntil).toLocaleString());
-      return;
-    }
-
-    // Toggle online/offline
-    const newStatus = !isOnline;
-    setIsOnline(newStatus);
-
-    // Update notifications
-    setNotifications((n) => [
-      newStatus ? "✅ You are now Online" : "⚙️ You are now Offline",
-      ...n,
-    ]);
-  }}
->
-  {isOnline ? "Online" : "Offline"}
-</button>
-</div>
-
-  <div className="tiny-actions">
-    <button className="ghost" onClick={addFiveMinutes}>+5 min (test)</button>
-    <button className="ghost" onClick={addOneHourToOnline}>+1 h online (test)</button>
-    <button className="ghost" onClick={addViolation}>⚠ Add Violation (test)</button>
-  </div>
-  </div>
-  </section>
-
-           {/* Leave modal (local only) */}
+      {/* Leave modal */}
       {showLeaveModal && (
         <div className="modal">
           <div className="modal-card">
             <h3>Apply for Leave</h3>
             <p>You have {Math.max(0, allowedLeaves - leaves)} free leaves remaining this month.</p>
             <p>Extra leaves cost ₹100 each.</p>
-
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button className="btn" onClick={confirmLeave}>Confirm Leave</button>
               <button className="btn ghost" onClick={() => setShowLeaveModal(false)}>Cancel</button>
@@ -432,21 +346,14 @@ const handleOpenNotifications = () => {
         </div>
       )}
 
-           {/* Status footer - ALWAYS OUTSIDE MODAL */}
+      {/* status/footer always outside modal */}
       <footer className="status-bar">
         <div className="left-status">
           <span className={`status-dot ${isOnline ? "online-dot" : "offline-dot"}`}></span>
           <span>{isOnline ? "Online" : "Offline"}</span>
         </div>
-
-        <div className="footer-right">
-          <small>FindCalm • Phase 1</small>
-        </div>
+        <div className="footer-right"><small>FindCalm • Phase 1</small></div>
       </footer>
-    </div> 
-  ); 
-}  // end App component
-
-export default App;
-
-
+    </div>
+  );
+}
