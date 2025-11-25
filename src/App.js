@@ -197,10 +197,10 @@ export default function App() {
         </div>
 
         <div className="header-right">
-          <div className="notif-icon" onClick={handleOpenNotifications}>
-            🔔 <span className="badge">{notifications.length}</span>
-          </div>
-          <div className="profile">
+        <div className="notif-icon" onClick={handleOpenNotifications}>
+  🔔 {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
+</div>
+         <div className="profile">
             <img alt="profile" src="https://cdn-icons-png.flaticon.com/512/706/706830.png" />
           </div>
         </div>
